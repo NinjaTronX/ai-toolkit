@@ -17,6 +17,14 @@ config:
         type: "lora"
         linear: 16
         linear_alpha: 16
+        # Added to train specific layers
+        network_kwargs:
+          only_if_contains:
+            - "transformer.single_transformer_blocks.7.proj_out"
+            - "transformer.single_transformer_blocks.12.proj_out"
+            - "transformer.single_transformer_blocks.16.proj_out"
+            - "transformer.single_transformer_blocks.20.proj_out"
+
       save:
         dtype: float16 # precision to save
         save_every: 250 # save every this many steps
@@ -31,7 +39,7 @@ config:
         # images will automatically be resized and bucketed into the resolution specified
         # on windows, escape back slashes with another backslash so
         # "C:\\path\\to\\images\\folder"
-        - folder_path: "/path/to/images/folder"
+        - folder_path: "/workspace/ai-toolkit/imagesdataset"
           caption_ext: "txt"
           caption_dropout_rate: 0.05  # will drop out the caption 5% of time
           shuffle_tokens: false  # shuffle caption order, split by commas
